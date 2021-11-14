@@ -1,0 +1,6 @@
+flake8
+Flask
+Flask-Migrate
+Flask-SQLAlchemy
+Flask-WTF
+pytest
