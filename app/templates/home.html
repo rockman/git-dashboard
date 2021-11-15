@@ -3,4 +3,16 @@
 
 <h1>Git Dashboard</h1>
 
+<a href="{{ url_for('main.addrepo' ) }}">Add Repo</a>
+
+{% if repos %}
+<div>
+    <ul>
+        {% for repo in repos %}
+        <li>{{ repo.path }}</li>
+        {% endfor %}
+    </ul>
+</div>    
+{% endif %}
+
 {% endblock %}

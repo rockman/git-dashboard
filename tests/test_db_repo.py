@@ -1,6 +1,7 @@
 
-from sys import path
 from types import SimpleNamespace
+
+import pytest
 
 from app import create_app, db
 from app.models import Repo
@@ -30,3 +31,8 @@ def test_repo_creation():
 
     x = Repo.query.filter_by(path='/some/path/to/repo').first()
     assert x.id == repo.id
+
+
+def test_repo_path_validation():
+    with pytest.raises(ValueError):
+        Repo(path='')
