@@ -2,9 +2,11 @@
 {% block content %}
 
 <form method="POST">
-    <label for="path"></label>
-    <input type="text" name="path" id="path">
-    <button>submit</button>
+    {{ form.hidden_tag() }}
+    {{ form.path.label }}
+    {{ form.path }}
+    <br>
+    {{ form.submit }}
 </form>
 
 {% with messages = get_flashed_messages(with_categories=True)  %}

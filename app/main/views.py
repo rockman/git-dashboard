@@ -3,6 +3,7 @@ from flask import render_template, Blueprint, request, redirect, url_for, flash
 
 from app import db
 from app.models import Repo
+from app.main.forms import NewRepoForm
 
 
 main = Blueprint("main", __name__)
@@ -16,20 +17,22 @@ def home():
 
 @main.route('/add-repo', methods=['GET', 'POST'])
 def addrepo():
-    if request.method == 'GET':
-        return render_template('addrepo.html')
+    form = NewRepoForm()
 
-    path = request.form.get('path')
-    if not path:
+    if request.method == 'GET':
+        return render_template('addrepo.html', form=form)
+
+    if not form.path.data:
         flash('Path is empty', 'error')
         return redirect(url_for('main.addrepo'))
 
-    if Repo.query.filter_by(path=path).count() > 0:
+    if Repo.query.filter_by(path=form.path.data).count() > 0:
         flash('Path already exists', 'warning')
         return redirect(url_for('main.addrepo'))
 
-    repo = Repo(path=path)
+    repo = Repo(path=form.path.data)
     db.session.add(repo)
     db.session.commit()
 
+    flash(f'Repo added: {repo.path}', 'info')
     return redirect(url_for('main.home'))
