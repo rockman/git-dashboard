@@ -19,20 +19,23 @@ def home():
 def addrepo():
     form = NewRepoForm()
 
-    if request.method == 'GET':
-        return render_template('addrepo.html', form=form)
+    if form.validate_on_submit():
+        
+        if Repo.query.filter_by(path=form.path.data).count() > 0:
+            flash('Path already exists', 'warning')
 
-    if not form.path.data:
-        flash('Path is empty', 'error')
-        return redirect(url_for('main.addrepo'))
+        else:
 
-    if Repo.query.filter_by(path=form.path.data).count() > 0:
-        flash('Path already exists', 'warning')
-        return redirect(url_for('main.addrepo'))
+            repo = Repo(path=form.path.data)
+            db.session.add(repo)
+            db.session.commit()
 
-    repo = Repo(path=form.path.data)
-    db.session.add(repo)
-    db.session.commit()
+            flash(f'Repo added: {repo.path}', 'info')
+        
+        return redirect(url_for('main.home'))
 
-    flash(f'Repo added: {repo.path}', 'info')
-    return redirect(url_for('main.home'))
+    if form.errors:
+        flash(f'Input has errors', 'error')
+
+    return render_template('addrepo.html', form=form)
+

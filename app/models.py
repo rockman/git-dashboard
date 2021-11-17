@@ -12,6 +12,6 @@ class Repo(db.Model):
 
     @validates('path')
     def validate_path(self, key, value):
-        if not value:
+        if not value or not value.strip():
             raise ValueError('path cannot be empty')
         return value

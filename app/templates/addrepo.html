@@ -3,8 +3,17 @@
 
 <form method="POST">
     {{ form.hidden_tag() }}
-    {{ form.path.label }}
-    {{ form.path }}
+    <div>
+        {{ form.path.label }}
+        {{ form.path }} 
+    </div>
+    {% if form.path.errors %}
+    <ul>
+        {% for error in form.path.errors %}
+            <li class="error">{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <br>
     {{ form.submit }}
 </form>
