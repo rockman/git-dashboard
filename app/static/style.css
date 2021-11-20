@@ -16,6 +16,20 @@ li.info {
     color: green;
 }
 
+div.repos {
+    margin-top: 20px;
+}
+
+a.home-link {
+    margin-top: 40px;
+    font-size: smaller;
+    font-style: italic;
+}
+
+p.no-status {
+    color: lightslategrey;
+}
+
 html {
     display: block;
 }

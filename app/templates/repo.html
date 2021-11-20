@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Repo: {{ repo.path }}</h1>
+
+{% if repo.status %}
+<pre>{{ repo.status }}</pre>
+<p>{{ repo.updated }}</p>    
+{% else %}
+<p class="no-status">(Status not yet retrieved)</p>    
+{% endif %}
+
+<form action="{{ url_for('main.deleterepo', repo_id=repo.id) }}" method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.submit }}
+</form>
+
+<a class="home-link" href="{{ url_for('main.home') }}">Home</a>
+
+{% endblock %}

@@ -1,9 +1,9 @@
 
-from flask import render_template, Blueprint, request, redirect, url_for, flash
+from flask import render_template, Blueprint, request, redirect, url_for, flash, abort
 
 from app import db
 from app.models import Repo
-from app.main.forms import NewRepoForm
+from app.main.forms import NewRepoForm, DeleteRepoForm
 
 
 main = Blueprint("main", __name__)
@@ -13,6 +13,29 @@ main = Blueprint("main", __name__)
 def home():
     repos = Repo.query.all()
     return render_template('home.html', repos=repos)
+
+
+@main.route('/repos/<int:repo_id>')
+def viewrepo(repo_id):
+    repo = Repo.query.filter_by(id=repo_id).first()
+    if not repo:
+        return abort(404)
+
+    form = DeleteRepoForm()
+
+    return render_template('repo.html', repo=repo, form=form)
+
+
+@main.route('/repos/<int:repo_id>', methods=['POST'])
+def deleterepo(repo_id):
+    repo = Repo.query.filter_by(id=repo_id).first()
+    if repo:
+        db.session.delete(repo)
+        db.session.commit()
+
+        flash(f'Repo { repo.path } deleted', 'info')
+
+    return redirect(url_for('main.home'))
 
 
 @main.route('/add-repo', methods=['GET', 'POST'])

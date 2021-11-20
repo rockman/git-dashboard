@@ -16,10 +16,10 @@
 <a href="{{ url_for('main.addrepo' ) }}">Add Repo</a>
 
 {% if repos %}
-<div>
+<div class="repos">
     <ul>
         {% for repo in repos %}
-        <li>{{ repo.path }}</li>
+        <li><a href="{{ url_for('main.viewrepo', repo_id=repo.id) }}">{{ repo.path }}</a></li>
         {% endfor %}
     </ul>
 </div>    
