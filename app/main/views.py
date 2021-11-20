@@ -3,7 +3,7 @@ from flask import render_template, Blueprint, request, redirect, url_for, flash,
 
 from app import db
 from app.models import Repo
-from app.main.forms import NewRepoForm, DeleteRepoForm
+from app.main.forms import NewRepoForm, DeleteRepoForm, FilterReposForm
 
 
 main = Blueprint("main", __name__)
@@ -12,7 +12,14 @@ main = Blueprint("main", __name__)
 @main.route("/")
 def home():
     repos = Repo.query.all()
-    return render_template('home.html', repos=repos)
+    total_count = len(repos)
+    form = FilterReposForm(request.args, meta=dict(csrf=False))
+
+    if form.filter.data:
+        filter = form.filter.data.lower()
+        repos = [repo for repo in repos if filter in repo.path.lower()]
+
+    return render_template('home.html', repos=repos, total_count=total_count, form=form)
 
 
 @main.route('/repos/<int:repo_id>')

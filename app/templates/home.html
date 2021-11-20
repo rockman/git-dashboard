@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Git Dashboard</h1>
+<h1><a href="{{ url_for('main.home') }}">Git Dashboard</a></h1>
 
 {% with messages = get_flashed_messages(with_categories=True)  %}
     {% if messages %}
@@ -15,6 +15,15 @@
 
 <a href="{{ url_for('main.addrepo' ) }}">Add Repo</a>
 
+<div>
+    <form method="GET">
+        {{ form.filter }}
+        {{ form.submit }}
+    </form>
+</div>
+
+{% if total_count > 0 %}
+
 {% if repos %}
 <div class="repos">
     <ul>
@@ -22,7 +31,14 @@
         <li><a href="{{ url_for('main.viewrepo', repo_id=repo.id) }}">{{ repo.path }}</a></li>
         {% endfor %}
     </ul>
-</div>    
+</div>
+{% elif form.filter.data %}
+<p>No Repos match the filter</p>
 {% endif %}
+
+{% else %}
+<p>You have no Repos</p>
+{% endif %}
+
 
 {% endblock %}
