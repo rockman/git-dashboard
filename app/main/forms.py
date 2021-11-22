@@ -9,8 +9,12 @@ class NewRepoForm(FlaskForm):
     submit = SubmitField("Add Repo")
 
 
+class RefreshRepoForm(FlaskForm):
+    submit = SubmitField("Refresh")
+
+
 class DeleteRepoForm(FlaskForm):
-    submit = SubmitField("Delete Repo")
+    submit = SubmitField("Delete")
 
 
 class FilterReposForm(FlaskForm):

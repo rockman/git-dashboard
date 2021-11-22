@@ -1,4 +1,6 @@
 
+from datetime import datetime
+
 from sqlalchemy.orm import validates
 
 from app import db
@@ -15,3 +17,7 @@ class Repo(db.Model):
         if not value or not value.strip():
             raise ValueError('path cannot be empty')
         return value
+
+    def update_status(self, status):
+        self.status = status
+        self.updated = datetime.now()
