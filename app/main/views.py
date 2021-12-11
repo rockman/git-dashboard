@@ -5,7 +5,8 @@ import app.git
 
 from app import db
 from app.models import Repo
-from app.main.forms import NewRepoForm, DeleteRepoForm, FilterReposForm, RefreshRepoForm
+from app.main.forms import AddReposForm, NewRepoForm, DeleteRepoForm, FilterReposForm, RefreshRepoForm
+from app.main.services import search_and_add_git_repos_from_base_path
 
 
 main = Blueprint("main", __name__)
@@ -69,7 +70,7 @@ def addrepo():
     form = NewRepoForm()
 
     if form.validate_on_submit():
-        
+
         if Repo.query.filter_by(path=form.path.data).count() > 0:
             flash('Path already exists', 'warning')
 
@@ -86,11 +87,29 @@ def addrepo():
             db.session.commit()
 
             flash(f'Repo added: {repo.path}', 'info')
-        
+
         return redirect(url_for('main.home'))
 
     if form.errors:
-        flash(f'Input has errors', 'error')
+        flash('Input has errors', 'error')
 
     return render_template('addrepo.html', form=form)
 
+
+@main.route('/add-repos', methods=['GET', 'POST'])
+def addrepos():
+    form = AddReposForm()
+
+    if form.validate_on_submit():
+        number_added = search_and_add_git_repos_from_base_path(form.basepath.data)
+        if number_added == 0:
+            flash('No repos were found', 'warning')
+        else:
+            flash(f'{number_added} repos added!', 'info')
+
+        return redirect(url_for('main.home'))
+
+    if form.errors:
+        flash('Input has errors', 'error')
+
+    return render_template('addrepos.html', form=form)

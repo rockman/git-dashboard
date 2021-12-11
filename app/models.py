@@ -21,3 +21,7 @@ class Repo(db.Model):
     def update_status(self, status):
         self.status = status
         self.updated = datetime.now()
+
+    @classmethod
+    def repo_exists(cls, path):
+        return Repo.query.filter_by(path=path).count() > 0

@@ -1,9 +1,8 @@
 
 
+import os
 import subprocess
 from pathlib import Path
-from typing import Type
-
 
 
 class Repo:
@@ -40,6 +39,23 @@ def repo_from_path(path_string):
             return Repo(p.stdout.decode('ascii').strip())
 
     return None
+
+
+def find_repos_from_path(base_path_string):
+    repo = repo_from_path(base_path_string)
+    if repo is not None:
+        return [repo]
+
+    repos = []
+    path = Path(base_path_string).expanduser().absolute()
+
+    for root, dirs, files in os.walk(str(path)):
+        if '.git' in dirs:
+            repo = repo_from_path(root)
+            if repo is not None:
+                repos.append(repo)
+
+    return repos
 
 
 def _run_rev_parse(path):
