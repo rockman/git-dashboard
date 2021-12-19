@@ -1,4 +1,6 @@
 
+import os.path
+
 from flask import render_template, Blueprint, request, redirect, url_for, flash, abort
 
 import app.git
@@ -113,3 +115,13 @@ def addrepos():
         flash('Input has errors', 'error')
 
     return render_template('addrepos.html', form=form)
+
+
+@main.app_template_filter()
+def path_parent(path_string):
+    return os.path.dirname(path_string) + os.path.sep
+
+
+@main.app_template_filter()
+def path_last(path_string):
+    return os.path.basename(path_string)

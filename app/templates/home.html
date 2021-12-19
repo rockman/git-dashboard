@@ -32,9 +32,13 @@
 {% if repos %}
 <ul class="col-md-6 list-group">
     {% for repo in repos %}
-    <li class="list-group-item">
-        <a href="{{ url_for('main.viewrepo', repo_id=repo.id) }}">{{ repo.path }}</a>
-    </li>
+    <a href="{{ url_for('main.viewrepo', repo_id=repo.id) }}"
+       class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+            <h5><span class="fw-lighter">{{ repo.path|path_parent }}</span>{{ repo.path|path_last }}</h5>
+        </div>
+        <pre class="repo-status text-muted">{% if repo.status %}{{ repo.status }}{% else %}(Status not yet retrieved){% endif %}</pre>
+    </a>
     {% endfor %}
 </ul>
 {% elif form.filter.data %}
