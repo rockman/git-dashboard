@@ -9,11 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Git Dashboard v0.1</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style type="text/css">
-            html {
-                display: none;
-            }
-        </style>
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
@@ -21,9 +17,12 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         
+        <div class="container">
         {% block content %}            
         {% endblock %}
+        </div>
 
+        <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}" async defer></script>
         <script src="{{ url_for('static', filename='app.js') }}" async defer></script>
     </body>
 </html>

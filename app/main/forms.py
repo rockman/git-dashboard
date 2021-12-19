@@ -36,4 +36,3 @@ class DeleteRepoForm(FlaskForm):
 
 class FilterReposForm(FlaskForm):
     filter = StringField("Filter")
-    submit = SubmitField("Filter Repos")

@@ -13,31 +13,40 @@
     {% endif %}
 {% endwith %}
 
-<a href="{{ url_for('main.addrepos' ) }}">Add Repos</a>
+<form action="{{ url_for('main.addrepos' ) }}" class="mt-3">
+    <button type="submit" class="btn btn-outline-primary">Add Repos</button>
+</form>
+<!-- <a href="{{ url_for('main.addrepos' ) }}">Add Repos</a> -->
 
-<div>
-    <form method="GET">
-        {{ form.filter }}
-        {{ form.submit }}
+<div class="col-md-6">
+    <form method="GET" class="mt-3 mb-3">
+        <div class="input-group input-group-sm">
+            {{ form.filter(class_="form-control", placeholder="Filter displayed repos by string (match is done by contains string)") }}
+            <button type="submit" class="btn btn-outline-secondary">Filter</button>
+        </div>
     </form>
 </div>
 
 {% if total_count > 0 %}
 
 {% if repos %}
-<div class="repos">
-    <ul>
-        {% for repo in repos %}
-        <li><a href="{{ url_for('main.viewrepo', repo_id=repo.id) }}">{{ repo.path }}</a></li>
-        {% endfor %}
-    </ul>
-</div>
+<ul class="col-md-6 list-group">
+    {% for repo in repos %}
+    <li class="list-group-item">
+        <a href="{{ url_for('main.viewrepo', repo_id=repo.id) }}">{{ repo.path }}</a>
+    </li>
+    {% endfor %}
+</ul>
 {% elif form.filter.data %}
-<p>No Repos match the filter</p>
+<div class="alert alert-info">
+No repositories matched the filter
+</div>
 {% endif %}
 
 {% else %}
-<p>You have no Repos</p>
+<div class="alert alert-info">
+You have no repositories
+</div>
 {% endif %}
 
 
