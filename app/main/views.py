@@ -14,7 +14,7 @@ main = Blueprint("main", __name__)
 
 @main.route("/")
 def home():
-    repos = Repo.query.all()
+    repos = Repo.query.order_by(Repo.path).all()
     total_count = len(repos)
     form = FilterReposForm(request.args, meta=dict(csrf=False))
 
