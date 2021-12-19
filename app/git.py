@@ -71,4 +71,4 @@ def _rev_parse(path):
 
 
 def _status(path):
-    return ['git', '-C', path.resolve(), 'status']
+    return ['git', '-C', path.resolve(), 'status', '-sb']
