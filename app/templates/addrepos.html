@@ -1,31 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <div>
-        {{ form.basepath.label }}
-        {{ form.basepath }}
-    </div>
-    {% if form.basepath.errors %}
-    <ul>
-        {% for error in form.basepath.errors %}
-            <li class="error">{{ error }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    <br>
-    <input type="submit" value="Find Repos At Path">
-</form>
-
-{% with messages = get_flashed_messages(with_categories=True)  %}
-    {% if messages %}
-        <ul>
-            {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
+<div class="col-md-6 mt-3">
+    <form method="POST">
+        <div class="mb-3">
+            {{ form.hidden_tag() }}
+            {{ form.basepath.label(class_="form-label") }}
+            {{ form.basepath(class_="form-control") }}
+            <div class="form-text">
+                Find and add git repos contained within this base path.
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Find & Add</button>
+    </form>
+</div>
 
 {% endblock %}

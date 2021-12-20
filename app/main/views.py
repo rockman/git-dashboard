@@ -107,7 +107,7 @@ def addrepos():
         number_added = len(new_repos)
 
         if number_added == 0:
-            flash('No repos were found', 'warning')
+            flash('No new repos were found', 'warning')
         else:
             parts = [f'{number_added} repos added:', '<ul>']
 
@@ -121,7 +121,9 @@ def addrepos():
         return redirect(url_for('main.home'))
 
     if form.errors:
-        flash('Input has errors', 'error')
+        for _, errors in form.errors.items():
+            for error in errors:
+                flash(f'{error}', 'error')
 
     return render_template('addrepos.html', form=form)
 
