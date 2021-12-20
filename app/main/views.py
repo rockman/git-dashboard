@@ -1,5 +1,6 @@
 
 import os.path
+from datetime import datetime
 
 from flask import render_template, Blueprint, request, redirect, url_for, flash, abort
 
@@ -93,3 +94,31 @@ def path_parent(path_string):
 @main.app_template_filter()
 def path_last(path_string):
     return os.path.basename(path_string)
+
+
+@main.app_template_filter()
+def last_updated(timestamp):
+    diff = (datetime.now() - timestamp).total_seconds()
+
+    if diff < 10:
+        return 'a few seconds ago'
+
+    if diff < 60 * 1.5:
+        return 'about a minute ago'
+
+    if diff < 5 * 60:
+        return 'a few minutes ago'
+
+    if diff < 58 * 60:
+        return f'about {int(diff) // 60} minutes ago'
+
+    if diff < 65 * 60:
+        return 'about an hour ago'
+
+    if diff < 24 * 60 * 60:
+        return f'about {int(diff) // (60 * 60)} hours ago'
+
+    if diff < 24 * 1.2 * 60 * 60:
+        return 'about a day ago'
+
+    return 'more than a day ago'

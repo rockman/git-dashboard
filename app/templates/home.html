@@ -31,8 +31,13 @@
                 <button type="submit" class="btn p-0"><i class="bi bi-arrow-clockwise"></i></button>
             </form>
             </div>
-        </div>        
-        <pre class="repo-status text-muted">{% if repo.status %}{{ repo.status }}{% else %}--- status not yet retrieved ---{% endif %}</pre>
+        </div>
+        {% if repo.updated %}
+            <small class="text-muted">Last updated: {{ repo.updated|last_updated }}</small>
+            <pre class="repo-status text-muted mt-1">{{ repo.status }}</pre>
+        {% else %}
+            <small class="text-muted">Last updated: <span class="fst-italic">never</span></small>
+        {% endif %}
     </div>
     {% endfor %}
 </ul>
