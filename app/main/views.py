@@ -7,7 +7,7 @@ import app.git
 
 from app import db
 from app.models import Repo
-from app.main.forms import AddReposForm, DeleteRepoForm, FilterReposForm, RefreshRepoForm
+from app.main.forms import AddReposForm, FilterReposForm
 from app.main.services import search_and_add_git_repos_from_base_path
 
 
@@ -25,18 +25,6 @@ def home():
         repos = [repo for repo in repos if filter in repo.path.lower()]
 
     return render_template('home.html', repos=repos, total_count=total_count, form=form)
-
-
-@main.route('/repos/<int:repo_id>')
-def viewrepo(repo_id):
-    repo = Repo.query.filter_by(id=repo_id).first()
-    if not repo:
-        return abort(404)
-
-    refresh_form = RefreshRepoForm()
-    delete_form = DeleteRepoForm()
-
-    return render_template('repo.html', repo=repo, refresh_form=refresh_form, delete_form=delete_form)
 
 
 @main.route('/repos/<int:repo_id>/refresh')

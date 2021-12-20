@@ -2,7 +2,7 @@
 from pathlib import Path
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField
 from wtforms.validators import InputRequired, DataRequired, ValidationError
 
 
@@ -19,14 +19,6 @@ class AddReposForm(FlaskForm):
 
         if not path.is_dir():
             raise ValidationError("Base Path is not a directory")
-
-
-class RefreshRepoForm(FlaskForm):
-    submit = SubmitField("Refresh")
-
-
-class DeleteRepoForm(FlaskForm):
-    submit = SubmitField("Delete")
 
 
 class FilterReposForm(FlaskForm):
