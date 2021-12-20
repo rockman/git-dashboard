@@ -7,7 +7,7 @@ import app.git
 
 from app import db
 from app.models import Repo
-from app.main.forms import AddReposForm, NewRepoForm, DeleteRepoForm, FilterReposForm, RefreshRepoForm
+from app.main.forms import AddReposForm, DeleteRepoForm, FilterReposForm, RefreshRepoForm
 from app.main.services import search_and_add_git_repos_from_base_path
 
 
@@ -65,37 +65,6 @@ def deleterepo(repo_id):
         flash(f'Deleted: { repo.path }', 'success')
 
     return redirect(url_for('main.home'))
-
-
-@main.route('/add-repo', methods=['GET', 'POST'])
-def addrepo():
-    form = NewRepoForm()
-
-    if form.validate_on_submit():
-
-        if Repo.query.filter_by(path=form.path.data).count() > 0:
-            flash('Path already exists', 'warning')
-
-        else:
-
-            path = form.path.data
-            git_repo = app.git.repo_from_path(path)
-
-            if git_repo:
-                path = git_repo.path
-
-            repo = Repo(path=path)
-            db.session.add(repo)
-            db.session.commit()
-
-            flash(f'Added: {repo.path}', 'success')
-
-        return redirect(url_for('main.home'))
-
-    if form.errors:
-        flash('Input has errors', 'error')
-
-    return render_template('addrepo.html', form=form)
 
 
 @main.route('/add-repos', methods=['GET', 'POST'])

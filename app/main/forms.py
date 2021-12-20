@@ -6,11 +6,6 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import InputRequired, DataRequired, ValidationError
 
 
-class NewRepoForm(FlaskForm):
-    path = StringField("Path", validators=[InputRequired("Path required"), DataRequired("Path cannot be empty")])
-    submit = SubmitField("Add Repo")
-
-
 class AddReposForm(FlaskForm):
     basepath = StringField("Base Path", validators=[
         InputRequired("Base Path is required"),
