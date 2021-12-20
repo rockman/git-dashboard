@@ -52,7 +52,7 @@ def refreshrepo(repo_id):
     db.session.add(repo)
     db.session.commit()
 
-    return redirect(url_for('main.viewrepo', repo_id=repo_id))
+    return redirect(url_for('main.home'))
 
 
 @main.route('/repos/<int:repo_id>', methods=['POST'])

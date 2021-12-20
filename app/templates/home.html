@@ -19,13 +19,21 @@
 {% if repos %}
 <ul class="col-md-6 list-group">
     {% for repo in repos %}
-    <a href="{{ url_for('main.viewrepo', repo_id=repo.id) }}"
-       class="list-group-item list-group-item-action">
+    <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
             <h5><span class="fw-lighter">{{ repo.path|path_parent }}</span>{{ repo.path|path_last }}</h5>
-        </div>
+
+            <div class="d-flex">
+            <form action="{{ url_for('main.deleterepo', repo_id=repo.id) }}" method="POST">
+                <button type="submit" class="btn p-0"><i class="bi bi-trash"></i></button>
+            </form>
+            <form action="{{ url_for('main.refreshrepo', repo_id=repo.id) }}" method="GET">
+                <button type="submit" class="btn p-0"><i class="bi bi-arrow-clockwise"></i></button>
+            </form>
+            </div>
+        </div>        
         <pre class="repo-status text-muted">{% if repo.status %}{{ repo.status }}{% else %}--- status not yet retrieved ---{% endif %}</pre>
-    </a>
+    </div>
     {% endfor %}
 </ul>
 {% elif form.filter.data %}
