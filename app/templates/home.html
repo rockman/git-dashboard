@@ -29,7 +29,7 @@
         <div class="d-flex w-100 justify-content-between">
             <h5><span class="fw-lighter">{{ repo.path|path_parent }}</span>{{ repo.path|path_last }}</h5>
         </div>
-        <pre class="repo-status text-muted">{% if repo.status %}{{ repo.status }}{% else %}(Status not yet retrieved){% endif %}</pre>
+        <pre class="repo-status text-muted">{% if repo.status %}{{ repo.status }}{% else %}--- status not yet retrieved ---{% endif %}</pre>
     </a>
     {% endfor %}
 </ul>
