@@ -1,0 +1,31 @@
+{% macro category_alerts(messages, desired_category, alert_type) %}
+    {% for category, message in messages %}
+        {% if category == desired_category %}
+            <div class="alert alert-{{alert_type}}">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro error_alerts(messages) %}
+    {{ category_alerts(messages, 'error', 'danger') }}
+{% endmacro %}
+
+{% macro warning_alerts(messages) %}
+    {{ category_alerts(messages, 'warning', 'warning') }}
+{% endmacro %}
+
+{% macro info_alerts(messages) %}
+    {{ category_alerts(messages, 'success', 'success') }}
+{% endmacro %}
+
+{% macro alerts() %}
+    {% with messages = get_flashed_messages(with_categories=True)  %}
+        {% if messages %}
+            {{ error_alerts(messages) }}
+            {{ warning_alerts(messages) }}
+            {{ info_alerts(messages) }}
+        {% endif %}
+    {% endwith %}
+{% endmacro %}

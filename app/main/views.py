@@ -62,7 +62,7 @@ def deleterepo(repo_id):
         db.session.delete(repo)
         db.session.commit()
 
-        flash(f'Repo { repo.path } deleted', 'info')
+        flash(f'Deleted: { repo.path }', 'success')
 
     return redirect(url_for('main.home'))
 
@@ -88,7 +88,7 @@ def addrepo():
             db.session.add(repo)
             db.session.commit()
 
-            flash(f'Repo added: {repo.path}', 'info')
+            flash(f'Added: {repo.path}', 'success')
 
         return redirect(url_for('main.home'))
 
@@ -107,7 +107,7 @@ def addrepos():
         if number_added == 0:
             flash('No repos were found', 'warning')
         else:
-            flash(f'{number_added} repos added!', 'info')
+            flash(f'{number_added} repos added!', 'success')
 
         return redirect(url_for('main.home'))
 

@@ -1,22 +1,14 @@
 {% extends 'base.html' %}
+{% import 'macros.html' as macros %}
 {% block content %}
 
 <h1><a href="{{ url_for('main.home') }}">Git Dashboard</a></h1>
 
-{% with messages = get_flashed_messages(with_categories=True)  %}
-    {% if messages %}
-        <ul>
-            {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
+{{ macros.alerts() }}
 
 <form action="{{ url_for('main.addrepos' ) }}" class="mt-3">
     <button type="submit" class="btn btn-outline-primary">Add Repos</button>
 </form>
-<!-- <a href="{{ url_for('main.addrepos' ) }}">Add Repos</a> -->
 
 <div class="col-md-6">
     <form method="GET" class="mt-3 mb-3">
