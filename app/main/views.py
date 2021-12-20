@@ -43,7 +43,7 @@ def refreshrepo(repo_id):
     return redirect(url_for('main.home'))
 
 
-@main.route('/repos/<int:repo_id>', methods=['POST'])
+@main.route('/repos/<int:repo_id>/delete', methods=['POST'])
 def deleterepo(repo_id):
     repo = Repo.query.filter_by(id=repo_id).first()
     if repo:
@@ -55,7 +55,7 @@ def deleterepo(repo_id):
     return redirect(url_for('main.home'))
 
 
-@main.route('/add-repos', methods=['GET', 'POST'])
+@main.route('/repos', methods=['GET', 'POST'])
 def addrepos():
     form = AddReposForm()
 
