@@ -2,7 +2,7 @@
     {% for category, message in messages %}
         {% if category == desired_category %}
             <div class="alert alert-{{alert_type}}">
-                {{ message }}
+                {{ message|safe }}
             </div>
         {% endif %}
     {% endfor %}

@@ -14,4 +14,4 @@ def search_and_add_git_repos_from_base_path(base_path_string):
         db.session.add(repo)
 
     db.session.commit()
-    return len(new_repos)
+    return [i.path for i in new_repos]

@@ -103,11 +103,20 @@ def addrepos():
     form = AddReposForm()
 
     if form.validate_on_submit():
-        number_added = search_and_add_git_repos_from_base_path(form.basepath.data)
+        new_repos = search_and_add_git_repos_from_base_path(form.basepath.data)
+        number_added = len(new_repos)
+
         if number_added == 0:
             flash('No repos were found', 'warning')
         else:
-            flash(f'{number_added} repos added!', 'success')
+            parts = [f'{number_added} repos added:', '<ul>']
+
+            for new_repo in new_repos:
+                parts.append(f'<li>{new_repo}</li>')
+
+            parts.append('</ul>')
+
+            flash('\n'.join(parts), 'success')
 
         return redirect(url_for('main.home'))
 
