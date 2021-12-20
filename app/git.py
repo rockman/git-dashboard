@@ -12,19 +12,23 @@ class Repo:
         self.status = None
 
     def get_status(self):
+        self.status = self._get_status()
+        return self.status
+
+    def _get_status(self):
         path = Path(self.path)
         if not path.exists:
-            self.status = 'Path does not exist!'
-        else:
+            return 'Path does not exist!'
 
-            p = _run_status(path)
-            if p.returncode == 0:
-                self.status = p.stdout.decode('ascii')
+        p = _run_fetch(path)
+        if p.returncode != 0:
+            return 'Could not fetch!'
 
-            else:
-                self.status = 'Could not get status!'
+        p = _run_status(path)
+        if p.returncode != 0:
+            return 'Could not get status!'
 
-        return self.status
+        return p.stdout.decode('ascii')
 
 
 def repo_from_path(path_string):
@@ -66,9 +70,21 @@ def _run_status(path):
     return subprocess.run(_status(path), capture_output=True)
 
 
+def _run_fetch(path):
+    return subprocess.run(_fetch(path), capture_output=True)
+
+
+def _args(path, *args):
+    return ['git', '-C', path.resolve()] + list(args)
+
+
 def _rev_parse(path):
-    return ['git', '-C', path.resolve(), 'rev-parse', '--show-toplevel']
+    return _args(path, 'rev-parse', '--show-toplevel')
 
 
 def _status(path):
-    return ['git', '-C', path.resolve(), 'status', '-sb']
+    return _args(path, 'status', '-sb')
+
+
+def _fetch(path):
+    return _args(path, 'fetch', '--all', '--prune')
